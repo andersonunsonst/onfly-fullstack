@@ -13,10 +13,24 @@ class UserSeeder extends Seeder
 
         // 👤 Usuário comum 1
         User::create([
-            'name' => 'Usuário 1',
+            'name' => 'Admin',
             'email' => 'anderson@unsonst.dev',
             'password' => Hash::make('123456'),
+            'role' => 'admin'
+        ]);
 
+        User::create([
+            'name' => 'User',
+            'email' => 'user@example.com',
+            'password' => Hash::make('password'),
+            'role' => 'user',
+        ]);
+
+        User::create([
+            'name' => 'User 2',
+            'email' => 'user2@example.com',
+            'password' => Hash::make('password'),
+            'role' => 'user',
         ]);
 
     }

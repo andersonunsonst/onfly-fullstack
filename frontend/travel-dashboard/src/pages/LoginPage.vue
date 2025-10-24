@@ -34,7 +34,14 @@ const login = async () => {
     loading.value = true
     await auth.login({ email: email.value, password: password.value })
     Notify.create({ message: 'Login realizado com sucesso!', color: 'positive' })
-    router.push('/dashboard')
+
+    // Aguarda garantir que o store foi atualizado
+    if (auth.token) {
+      router.push('/dashboard')
+    } else {
+      Notify.create({ message: 'Erro ao autenticar', color: 'negative' })
+    }
+
   } catch {
     Notify.create({ message: 'Credenciais inválidas', color: 'negative' })
   } finally {

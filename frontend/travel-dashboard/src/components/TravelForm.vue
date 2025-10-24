@@ -18,13 +18,13 @@
 </template>
 
 <script setup>
-import { ref, emit } from 'vue'
+import { ref } from 'vue'
 import { api } from 'boot/axios'
 import { Notify } from 'quasar'
 
 const form = ref({ destination: '', departure_date: '', return_date: '' })
 const loading = ref(false)
-
+const emit = defineEmits(['created', 'close'])
 const submit = async () => {
   try {
     loading.value = true
