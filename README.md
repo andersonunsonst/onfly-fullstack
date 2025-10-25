@@ -204,9 +204,3 @@ Desenvolvedor Full Stack — PHP / Laravel / Vue.js
 🌐 [linkedin.com/in/andersonunsonst](https://linkedin.com/in/andersonunsonst)
 
 ```
-
----
-
-Quer que eu te gere também o **README.md do frontend (Quasar)**, separado e mais curto (com instruções de instalação e build apenas para o SPA)?  
-Isso ajuda se o desafio for avaliado com repositórios separados.
-```
