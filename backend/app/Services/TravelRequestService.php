@@ -31,35 +31,32 @@ class TravelRequestService
         return $this->repository->create($payload);
     }
 
-    /**
-     * Update travel request status with business rules.
-     */
+
     public function updateStatus(User $user, int $id, string $status): array
     {
         if ($user->role !== 'admin') {
             throw ValidationException::withMessages([
-                'permission' => ['Only admins can change status.']
+                'permission' => ['Somente usuários Administradores podem alterar status.']
             ]);
         }
 
         $travel = $this->repository->find($id);
         if (! $travel) {
-            throw ValidationException::withMessages(['travel' => ['Travel request not found.']]);
+            throw ValidationException::withMessages(['travel' => ['Viagem não encontrada.']]);
         }
 
         if ($status === 'canceled' && $travel->status === 'approved') {
             throw ValidationException::withMessages([
-                'status' => ['Approved requests cannot be canceled.']
+                'status' => ['Pedidos aprovados não podem ser cancelados.']
             ]);
         }
 
         $travel = $this->repository->updateStatus($travel, $status);
 
-        // Apenas retorna a mensagem como "notificação"
         $message = match ($status) {
-            'approved' => 'Travel request approved successfully!',
-            'canceled' => 'Travel request canceled successfully!',
-            default => 'Status updated successfully!',
+            'approved' => 'Viagem aprovada com sucesso!',
+            'canceled' => 'Viagem cancelada com sucesso!',
+            default => 'Status da viagem atualizado com sucesso!',
         };
 
         return [

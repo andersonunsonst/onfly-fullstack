@@ -19,33 +19,27 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useAuthStore } from 'src/stores/auth'
 import { useRouter } from 'vue-router'
-import { useAuthStore } from 'stores/auth'
 import { Notify } from 'quasar'
 
-const router = useRouter()
-const auth = useAuthStore()
 const email = ref('')
 const password = ref('')
 const loading = ref(false)
+const auth = useAuthStore()
+const router = useRouter()
 
 const login = async () => {
   try {
     loading.value = true
     await auth.login({ email: email.value, password: password.value })
     Notify.create({ message: 'Login realizado com sucesso!', color: 'positive' })
-
-    // Aguarda garantir que o store foi atualizado
-    if (auth.token) {
-      router.push('/dashboard')
-    } else {
-      Notify.create({ message: 'Erro ao autenticar', color: 'negative' })
-    }
-
-  } catch {
+    router.push('/dashboard') 
+  } catch  {
     Notify.create({ message: 'Credenciais inválidas', color: 'negative' })
   } finally {
     loading.value = false
   }
 }
 </script>
+

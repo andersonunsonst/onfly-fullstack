@@ -3,38 +3,53 @@ import { api } from 'boot/axios'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
+    user: null,
     token: localStorage.getItem('token') || null,
-    user: null
+    initialized: false,
   }),
+
+  getters: {
+    isAuthenticated: (state) => !!state.user,
+  },
 
   actions: {
     async login(credentials) {
-        const { data } = await api.post('/login', credentials)
+      const { data } = await api.post('/login', credentials)
 
-        this.token = data.access_token
-        localStorage.setItem('token', this.token)
+      this.token = data.access_token
+      localStorage.setItem('token', this.token)
+      api.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
 
-        // garante que axios já use o token antes de continuar
-        api.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
-
-        // opcional: busca o usuário autenticado
-        await this.getUser()
+      const me = await api.get('/me')
+      this.user = me.data
     },
 
+    async logout() {
 
-    async getUser() {
-      const { data } = await api.get('/me')
-      this.user = data
-    },
+      await api.post('/logout')
 
-    logout() {
-      this.token = null
       this.user = null
+      this.token = null
       localStorage.removeItem('token')
+      delete api.defaults.headers.common['Authorization']
     },
 
-    isAdmin() {
-      return this.user?.role === 'admin'
-    }
-  }
+    async restoreSessionOnce() {
+      if (this.initialized) return
+      this.initialized = true
+
+      const token = localStorage.getItem('token')
+      if (!token) return
+
+      this.token = token
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+      try {
+        const { data } = await api.get('/me')
+        this.user = data
+      } catch {
+        this.logout()
+      }
+    },
+  },
 })

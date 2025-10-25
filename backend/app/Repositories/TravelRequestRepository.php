@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\TravelRequest;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class TravelRequestRepository
 {
@@ -19,7 +20,7 @@ class TravelRequestRepository
 
     public function filter(array $filters): Collection
     {
-        $query = TravelRequest::query();
+        $query = TravelRequest::query()->where('user_id', Auth::id());
 
         if (!empty($filters['status'])) {
             $query->where('status', $filters['status']);

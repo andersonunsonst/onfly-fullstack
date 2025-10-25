@@ -2,16 +2,7 @@
   <q-page padding>
     <div class="row items-center justify-between q-mb-md">
       <div class="text-h5">Pedidos de Viagem</div>
-      <div class="row q-gutter-sm items-center">
-        <q-select
-          v-model="statusFilter"
-          :options="['requested', 'approved', 'canceled']"
-          label="Filtrar por status"
-          dense
-          @update:model-value="loadTravels"
-        />
-        <q-btn color="primary" icon="add" label="Novo Pedido" @click="openForm = true" />
-      </div>
+      <q-btn color="primary" icon="add" label="Novo Pedido" @click="openForm = true" />
     </div>
 
     <TravelTable
@@ -20,8 +11,12 @@
       @update-status="updateStatus"
     />
 
-    <q-dialog v-model="openForm">
-      <TravelForm @created="loadTravels" @close="openForm = false" />
+    <!-- Diálogo controlado -->
+    <q-dialog v-model="openForm" persistent>
+      <TravelForm
+        @created="loadTravels"
+        @close="handleClose"
+      />
     </q-dialog>
   </q-page>
 </template>
@@ -35,24 +30,23 @@ import TravelForm from 'components/TravelForm.vue'
 
 const travels = ref([])
 const loading = ref(false)
-const statusFilter = ref('')
 const openForm = ref(false)
 
 const loadTravels = async () => {
   loading.value = true
-  const { data } = await api.get('/travel-requests', { params: { status: statusFilter.value } })
+  const { data } = await api.get('/travel-requests')
   travels.value = data
   loading.value = false
 }
 
 const updateStatus = async (id, status) => {
-  try {
-    const { data } = await api.patch(`/travel-requests/${id}/status`, { status })
-    Notify.create({ message: data.message, color: 'positive' })
-    await loadTravels()
-  } catch {
-    Notify.create({ message: 'Erro ao atualizar status', color: 'negative' })
-  }
+  const { data } = await api.patch(`/travel-requests/${id}/status`, { status })
+  Notify.create({ message: data.message, color: 'positive' })
+  await loadTravels()
+}
+
+const handleClose = () => {
+  openForm.value = false
 }
 
 onMounted(loadTravels)

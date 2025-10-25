@@ -1,15 +1,20 @@
-import { useAuthStore } from 'stores/auth'
+import { boot } from 'quasar/wrappers'
+import { useAuthStore } from 'src/stores/auth'
 
-export default ({ router }) => {
+export default boot(async ({ router }) => {
+  const auth = useAuthStore()
+
+  await auth.restoreSessionOnce()
+
   router.beforeEach((to, from, next) => {
-    const auth = useAuthStore()
+    const requiresAuth = to.meta?.requiresAuth === true
 
-    if (to.meta.requiresAuth && !auth.token) {
+    if (requiresAuth && !auth.isAuthenticated) {
       next('/login')
-    } else if (to.path === '/login' && auth.token) {
+    } else if (to.path === '/login' && auth.isAuthenticated) {
       next('/dashboard')
     } else {
       next()
     }
   })
-}
+})

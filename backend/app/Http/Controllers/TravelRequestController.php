@@ -41,7 +41,7 @@ class TravelRequestController extends Controller
         ], 201);
     }
 
-    public function updateStatus(Request $request, int $id)
+    public function updateStatus(Request $request, $id)
     {
         $validated = $request->validate([
             'status' => 'required|in:approved,canceled',
