@@ -202,5 +202,3 @@ Durante o seed (`php artisan migrate --seed`), os seguintes usuários são criad
 Desenvolvedor Full Stack — PHP / Laravel / Vue.js
 📧 [anderson.unsonst@email.com](mailto:anderson.unsonst@email.com)
 🌐 [linkedin.com/in/andersonunsonst](https://linkedin.com/in/andersonunsonst)
-
-```
