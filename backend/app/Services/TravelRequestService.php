@@ -64,4 +64,12 @@ class TravelRequestService
             'data' => $travel
         ];
     }
+
+    public function list(User $user, array $filters = []): array
+    {
+        $travels = $this->repository->filterForUser($user, $filters);
+
+        return ['data' => $travels];
+    }
+
 }

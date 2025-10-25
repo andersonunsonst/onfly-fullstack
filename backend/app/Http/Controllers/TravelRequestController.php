@@ -21,8 +21,10 @@ class TravelRequestController extends Controller
 
     public function index(Request $request)
     {
+        $user = $request->user();
         $filters = $request->only(['status', 'destination', 'start_date', 'end_date']);
-        return response()->json($this->repository->filter($filters));
+
+        return response()->json($this->service->list($user, $filters));
     }
 
     public function store(Request $request)
