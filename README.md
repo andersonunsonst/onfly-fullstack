@@ -94,8 +94,8 @@ Entre na pasta do frontend:
 
 ```bash
 cd ../frontend/travel-dashboard
-yarn install
-yarn quasar dev
+npm install
+npx quasar dev
 ```
 
 ✅ O frontend estará acessível em:
@@ -157,7 +157,7 @@ Durante o seed (`php artisan migrate --seed`), os seguintes usuários são criad
 
 | Tipo          | Email                                         | Senha    | Permissão                                 |
 | ------------- | --------------------------------------------- | -------- | ----------------------------------------- |
-| Admin         | [admin@example.com](mailto:admin@example.com) | password | Pode aprovar e cancelar viagens           |
+| Admin         | [anderson@unsonst.dev](anderson@unsonst.dev)  | 123456   | Pode aprovar e cancelar viagens           |
 | Usuário comum | [user@example.com](mailto:user@example.com)   | password | Pode criar e listar suas próprias viagens |
 
 ---
