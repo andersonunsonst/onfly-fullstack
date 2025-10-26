@@ -23,6 +23,7 @@ Aplicação **Full Stack** desenvolvida em **Laravel 12** (API REST) e **Quasar/
 - **PHPUnit / Pest** — Testes automatizados
 
 ---
+````
 
 ## 🚀 Instruções de Instalação
 
@@ -33,7 +34,6 @@ git clone git@github.com:andersonunsonst/onfly-fullstack.git
 cd onfly-desafio
 ````
 
----
 
 ### 2️⃣ Configurar o ambiente
 
