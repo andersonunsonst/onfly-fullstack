@@ -11,7 +11,6 @@ class UserSeeder extends Seeder
     public function run(): void
     {
 
-        // 👤 Usuário comum 1
         User::create([
             'name' => 'Admin',
             'email' => 'anderson@unsonst.dev',

@@ -1,6 +1,16 @@
 <template>
   <q-page padding>
-    <!-- 🔹 Filtros -->
+   
+    <div class="row justify-between items-center q-mb-md">
+      <div class="text-h5">📋 Pedidos de Viagem</div>
+      <q-btn
+        color="primary"
+        label="Nova Viagem"
+        icon="add"
+        @click="showForm = true"
+      />
+    </div>
+
     <div class="row items-end q-col-gutter-md q-mb-md">
       <q-input v-model="filters.destination" label="Destino" dense outlined class="col-3" />
 
@@ -18,8 +28,10 @@
       </div>
     </div>
 
-    <!-- 🔹 Tabela -->
-    <TravelTable :travels="travels" :loading="loading" @update-status="updateStatus" />
+     <TravelTable :travels="travels" :loading="loading" @update-status="updateStatus" />
+     <q-dialog v-model="showForm" persistent>
+      <TravelForm @created="loadTravels" @close="showForm = false" />
+    </q-dialog>
   </q-page>
 </template>
 
@@ -28,9 +40,11 @@ import { ref } from 'vue'
 import { api } from 'boot/axios'
 import { Notify } from 'quasar'
 import TravelTable from 'src/components/TravelTable.vue'
+import TravelForm from 'src/components/TravelForm.vue'
 
 const travels = ref([])
 const loading = ref(false)
+const showForm = ref(false)
 const filters = ref({
   destination: '',
   status: '',
@@ -71,7 +85,7 @@ const resetFilters = () => {
 
 const updateStatus = async (id, status) => {
   try {
-    await api.patch(`/travel-requests/${id}/status`, { status })
+    await api.patch(`/travel-requests/${id}/status`, { status: String(status) })
     Notify.create({ message: 'Status atualizado!', color: 'positive' })
     loadTravels()
   } catch (err) {
