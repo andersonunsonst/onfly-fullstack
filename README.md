@@ -29,7 +29,7 @@ Aplicação **Full Stack** desenvolvida em **Laravel 12** (API REST) e **Quasar/
 ### 1️⃣ Clonar o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/onfly-desafio.git
+git clone git@github.com:andersonunsonst/onfly-fullstack.git
 cd onfly-desafio
 ````
 
