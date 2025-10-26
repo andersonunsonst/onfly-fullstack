@@ -94,8 +94,8 @@ Entre na pasta do frontend:
 
 ```bash
 cd ../frontend/travel-dashboard
-yarn install
-yarn quasar dev
+npm install
+npx quasar dev
 ```
 
 ✅ O frontend estará acessível em:
